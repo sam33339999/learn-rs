@@ -21,7 +21,7 @@ int main() {
     return 0;
 }
 ```
-2. C++ 的異常則是在錯誤的位置拋出異常；然後在錯誤處理的位置捕捉異常。 Like PHP
+2. C++ 的異常則是在錯誤的位置拋出異常；然後在錯誤處理的位置捕捉異常。 Like PHP...
 ```php
 try {
     // do something
@@ -48,6 +48,18 @@ try {
     - 缺點：
         - 由於`異常隱晦`，使得任何地方都可能拋出異常。
         - 函數的退出點也變得隱晦，帶來`異常安全`的問題，增加程式碼的心智負擔
+
+### 還有類似 `內存泄露` 的問題
+```c++
+void foo() {
+    auto thing = new Thing();
+    bar(); // 這裡如果發生 error => try ... catch ... 執行後，thing 沒有被釋放掉，導致 thing 洩漏
+    delete thing;
+}
+```
+
+> 解決該問題的方式是使用 `智能指標` ，他們使用了 `RAII` 機制 (Resource Acquisition Is Initialization - 資源取得即初始化)
+確保了函式在各種情況下均能妥善的釋放動態分配的對象
 
 
 ## Rust 
